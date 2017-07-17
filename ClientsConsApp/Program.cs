@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace ClientsConsApp
@@ -12,29 +13,66 @@ namespace ClientsConsApp
             try
             {
 
-                string dir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+               
+                string fileInput = Resources.InputFile; 
 
-                string file = dir + @"\TextFiles\people.in";
-                StreamReader sr = new StreamReader(file);
+
+                StreamReader sr = new StreamReader(fileInput);
 
 
                 line = sr.ReadLine();
 
+                List<People> linkedIncontacts = new List<People>();
+
                 while (line != null)
                 {
-                    //write the lie to console window
-                    Console.WriteLine(line);
-                    //Read the next line
+
+                    People person = new People(line);
+                    linkedIncontacts.Add(person);
+                    
                     line = sr.ReadLine();
                 }
 
-                //close the file
+               
+                IComparer<People> comparer = new MyOrderingPeopleCriteria();
+                linkedIncontacts.Sort(comparer);
+
+
+               
                 sr.Close();
-                Console.ReadLine();
+
+
+                try
+                {
+
+                  
+                    string fileOutput = Resources.OutputFile; 
+
+                    StreamWriter sw = new StreamWriter(fileOutput);
+                  
+                    for (int i=0; i<100;i++)
+                    {
+                        sw.WriteLine(linkedIncontacts[i].Id);
+                        // sw.WriteLine(linkedIncontacts[i].Id + " " + linkedIncontacts[i].Ranking + " " + linkedIncontacts[i].CurrentRole + " " 
+                        //+ linkedIncontacts[i].Country + " " +  linkedIncontacts[i].Industry);
+
+                    }
+
+
+                    sw.Close();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Exception: " + e.Message);
+                    Console.ReadLine();
+                }
+               
+               // Console.ReadLine();
             }
             catch (Exception e)
             {
                 Console.WriteLine("Exception: " + e.Message);
+                Console.ReadLine();
             }
 
         }
