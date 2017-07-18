@@ -8,7 +8,7 @@ namespace ClientsConsApp
     {
         static void Main(string[] args)
         {
-            //Read File
+          
             string line;
             try
             {
@@ -53,8 +53,8 @@ namespace ClientsConsApp
                     for (int i=0; i<100;i++)
                     {
                         sw.WriteLine(linkedIncontacts[i].Id);
-                        // sw.WriteLine(linkedIncontacts[i].Id + " " + linkedIncontacts[i].Ranking + " " + linkedIncontacts[i].CurrentRole + " " 
-                        //+ linkedIncontacts[i].Country + " " +  linkedIncontacts[i].Industry);
+                        /* sw.WriteLine(linkedIncontacts[i].Id + " " + linkedIncontacts[i].Rating + " " + linkedIncontacts[i].CurrentRole + " " 
+                        + linkedIncontacts[i].Country + " " +  linkedIncontacts[i].Industry);*/
 
                     }
 
@@ -67,7 +67,7 @@ namespace ClientsConsApp
                     Console.ReadLine();
                 }
                
-               // Console.ReadLine();
+              
             }
             catch (Exception e)
             {

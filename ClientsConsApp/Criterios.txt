@@ -1,0 +1,26 @@
+﻿Criterios:
+Para este algoritmo se ha tomado en cuenta los siguientes datos de cada persona.
+1) Rol
+2) Country
+3) Industry
+
+Asignandose un puntaje para cada uno de ellos:
+
+Rol: el rol "chief executive manager" tiene un puntaje de 10
+Otro rol que contenga las palabras:  "chief", "owner", "chair","president","manager", "director", "executive", "supervisor" 
+se le ha asignado un puntaje de 8
+
+Country: Se ha asignado un puntaje de 6 para el caso que el contacto 
+sea de "Argentina", 5 puntos para el caso que sea de otro pais de latinoamerica, 4 para el caso de clientes de USA o Canada, 3 para el caso de europa.
+Suponiendo que BSAiresDev no desea entrar en Asia o africa, si el contacto pertenece a estos paises se le restara 3 puntos.
+
+Industry: Se esta sumando 3 puntos para el caso de que el contacto este en cualquiera de las siguientes industrias:
+"financial services", "telecomnunications", "retail", "supermarkets", "Banking".
+
+Luego de asignar puntaje segun estas variables, si existen dos personas con igual puntaje 
+le dare prioridad a las personas mas influyentes segun su perfil esto es aquellos que tengan mas conexiones y recomendaciones.
+
+Para mejorar este algoritmo, podrían ser utiles otras variables como por ejemplo:
+- Numero de años que vienen trabajando en su compañia actual (si tienen mas años es mas posible que tengan mas influencia)
+- Numero de Conexiones de 1er grado con clientes ya existentes de BairesDev (se volveria mas relevante el numero de conexiones)
+- Numero de recomendaciones hechas por contactos o clientes de BairesDev

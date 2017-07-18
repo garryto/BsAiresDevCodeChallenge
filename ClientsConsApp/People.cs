@@ -16,7 +16,7 @@ namespace ClientsConsApp
         string industry;
         int recomendations;
         int connections;
-        int ranking;
+        int rating;
 
         public People(string line)
         {
@@ -29,89 +29,15 @@ namespace ClientsConsApp
             industry = data[5];
             recomendations = data[6] == "" ? 0 : int.Parse(data[6]);
             connections = data[7] == "" ? 0 : int.Parse(data[7]);
-            setRanking();
+            setRating();
         }
+        
 
-        private void setRanking()
-        {
-            string[] roles = new string[] { "chief", "owner", "chair","president","manager", "director", "executive", "supervisor" };
-           
-            foreach (string rol in roles)
-            {
-                if (currentRole.Contains(rol))
-                {
-                    if (currentRole.Contains("chief executive officer"))
-                    {
-                        ranking += 15;
-                        break;
-                    }
-
-                    ranking += 10;
-                    break;
-                } 
-                
-            }
-
-            string[] latamCountries = new string[] { "Costa Rica", "Mexico", "Argentina", "Chile", "Brazil", "Colombia", "Peru", "Puerto Rico", "Ecuador", "Panama" };
-            string[] usaAndCanada = new string[] { "United States", "Canada" };
-            string[] european = new string[] { "Spain", "Germany", "Italy", "France", "Sweden", "Portugal", "Greece", "Netherland", "Switzerland", "Finland", "Denmark", "Ireland" };
-            string[] eastern = new string[] { "Turkey", "Singapore", "Malta", "Czech Republic", "Cyprus", "Croatia", "Russian Federation" };
-            string[] asian = new string[] { "China", "India", "Japon", "korea", "Maylasia" };
-            string[] african = new string[] { "South Africa", "kuwait" };
-
-
-            foreach (string countryElement in latamCountries)
-            {
-                if (country.Contains(countryElement))
-                {
-                   
-                    ranking += 5;
-                    break;
-                }
-
-            }
-
-            foreach (string countryElement in usaAndCanada)
-            {
-                if (country.Contains(countryElement))
-                {
-
-                    ranking += 4;
-                    break;
-                }
-
-            }
-
-            foreach (string countryElement in european)
-            {
-                if (country.Contains(countryElement))
-                {
-
-                    ranking += 3;
-                    break;
-                }
-
-            }
-
-            string[] targetIndustries = new string[] { "Financial Services", "Telecomunications", "retail", "Supermarkets" };
-
-            foreach (string targetIndustry in targetIndustries)
-            {
-                if (industry.Contains(targetIndustry))
-                {
-
-                    ranking += 5;
-                    break;
-                }
-
-            }
-        }
-
-        public int Ranking
+        public int Rating
         {
             get
             {
-                return ranking;
+                return rating;
             }
 
         }
@@ -123,6 +49,17 @@ namespace ClientsConsApp
                 return connections;
             }
         }
+
+
+        public int Recomendations
+        {
+            get
+            {
+                return recomendations;
+            }
+        }
+
+        
         public int Id
         {
             get
@@ -153,6 +90,109 @@ namespace ClientsConsApp
                 return country;
             }
         }
+
+        private void setRating()
+        {
+            string[] roles = new string[] { "chief", "owner", "chair", "president", "manager", "director", "executive", "supervisor" };
+
+            foreach (string rol in roles)
+            {
+                if (currentRole.Contains(rol))
+                {
+                    if (currentRole.Contains("chief executive officer"))
+                    {
+                        rating += 10;
+                        break;
+                    }
+
+                    rating += 8;
+                    break;
+                }
+
+            }
+
+            string[] latamCountries = new string[] { "Costa Rica", "Mexico", "Argentina", "Chile", "Brazil", "Colombia", "Peru", "Puerto Rico", "Ecuador", "Panama" };
+            string[] usaAndCanada = new string[] { "United States", "Canada" };
+            string[] european = new string[] { "Spain", "Germany", "Italy", "France", "Sweden", "Portugal", "Greece", "Netherland", "Switzerland", "Finland", "Denmark", "Ireland" };
+            string[] eastern = new string[] { "Turkey", "Singapore", "Malta", "Czech Republic", "Cyprus", "Croatia", "Russian Federation" };
+            string[] asian = new string[] { "China", "India", "Japon", "korea", "Maylasia" };
+            string[] african = new string[] { "South Africa", "kuwait" };
+
+
+            foreach (string countryElement in latamCountries)
+            {
+                if (country.Contains(countryElement))
+                {
+
+                    if (currentRole.Contains("Argentina"))
+                    {
+                        rating += 6;
+                        break;
+                    }
+
+                    rating += 5;
+                    break;
+                }
+
+            }
+
+            foreach (string countryElement in usaAndCanada)
+            {
+                if (country.Contains(countryElement))
+                {
+
+                    rating += 4;
+                    break;
+                }
+
+            }
+
+            foreach (string countryElement in european)
+            {
+                if (country.Contains(countryElement))
+                {
+
+                    rating += 3;
+                    break;
+                }
+
+            }
+
+            foreach (string countryElement in asian)
+            {
+                if (country.Contains(countryElement))
+                {
+
+                    rating -= 3;
+                    break;
+                }
+
+            }
+
+            foreach (string countryElement in african)
+            {
+                if (country.Contains(countryElement))
+                {
+
+                    rating -= 3;
+                    break;
+                }
+
+            }
+
+            string[] targetIndustries = new string[] { "Financial Services", "Telecomunications", "retail", "Supermarkets", "Banking" };
+
+            foreach (string targetIndustry in targetIndustries)
+            {
+                if (industry.Contains(targetIndustry))
+                {
+
+                    rating += 5;
+                    break;
+                }
+
+            }
+        }
     }
     
 
@@ -160,11 +200,17 @@ namespace ClientsConsApp
     {
         public int Compare(People x, People y)
         {
-            int compareRanking = x.Ranking.CompareTo(y.Ranking);
+            int compareRanking = x.Rating.CompareTo(y.Rating);
             if (compareRanking == 0)
             {
                     //If it is a draw I would like to give more importance to more influent people, therefore with more connections.
-                    return -1*x.Connections.CompareTo(y.Connections);
+                    int compareConnections = x.Connections.CompareTo(y.Connections);
+                    if (compareConnections==0)
+                    {
+                        //If it is still a draw I would like to give more importance trusted and reconigzed people, therefore with more recomendations.
+                        return -1 * x.Recomendations.CompareTo(y.Recomendations);
+                    }
+                return -1* compareConnections;
             }
             return -1* compareRanking;
         }
